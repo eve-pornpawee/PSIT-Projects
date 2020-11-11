@@ -7,6 +7,11 @@ def show_score():
         print("The current high score is {} attempts".format(min(attempts_list)))
 def start_game():
     random_number = int(random.randint(1, 26))
+    english = {'1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E', '6': 'F',
+         '7': 'G', '8': 'H', '9': 'I', '10': 'J', '11': 'K', '12': 'L',
+         '13': 'M', '14': 'N', '15': 'O', '16': 'P', '17': 'Q', '18': 'R',
+         '19': 'S', '20': 'S', '21': 'T', '22': 'U', '23': 'W', '24': 'X',
+         '25': 'Y', '26': 'Z'}
     print("Hello traveler! Welcome to the game of guesses!")
     player_name = input("What is your name? ")
     wanna_play = input("Hi, {}, would you like to play the guessing game? (Enter Yes/No) ".format(player_name))
@@ -22,6 +27,9 @@ def start_game():
                 attempts += 1
                 attempts_list.append(attempts)
                 print("It took you {} attempts".format(attempts))
+                print("code for you is", english[str(random_number)] + english[str(attempts)] +
+                      english[str(random.randint(1, 26))] + english[str(random.randint(1, 26))] +
+                      english[str(int(guess))] + english[str((int(guess))+1)] + str(random_number))
                 play_again = input("Would you like to play again? (Enter Yes/No) ")
                 attempts = 0
                 show_score()
