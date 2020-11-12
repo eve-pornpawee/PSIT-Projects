@@ -1,35 +1,51 @@
-from tkinter import *
-def click(num):
-    global op
-    op=op+str(num)
-    iptext.set(op)
-def evaluate():
-    global op
-    output=str(eval(op))
-    iptext.set(output)
-def clearDisplay():
-    global op
-    op=""
-    iptext.set(op)
-calc=Tk()
-calc.title("TechVidvan Calculator")
-op=""
-iptext=StringVar()
-iparea=Entry(calc,font=('large,_font',15,'bold'),bd=10,justify="right",insertwidth=4,textvariable=iptext).grid(columnspan=10)
-bt7=Button(calc,font=('arial',15,'bold'),command=lambda:click(7),bg="lavender",text="7",bd=5,padx=15,pady=10).grid(row=1,column=0)
-bt8=Button(calc,font=('arial',15,'bold'),command=lambda:click(8),bg="lavender",text="8",bd=5,padx=15,pady=10).grid(row=1,column=1)
-bt9=Button(calc,font=('arial',15,'bold'),command=lambda:click(9),bg="lavender",text="9",bd=5,padx=15,pady=10).grid(row=1,column=2)
-add=Button(calc,font=('arial',15,'bold'),command=lambda:click('+'),bg="lavender",text="+",bd=5,padx=15,pady=10).grid(row=1,column=3)
-bt4=Button(calc,font=('arial',15,'bold'),command=lambda:click(4),bg="lavender",text="4",bd=5,padx=15,pady=10).grid(row=2,column=0)
-bt5=Button(calc,font=('arial',15,'bold'),command=lambda:click(5),bg="lavender",text="5",bd=5,padx=15,pady=10).grid(row=2,column=1)
-bt6=Button(calc,font=('arial',15,'bold'),command=lambda:click(6),bg="lavender",text="6",bd=5,padx=15,pady=10).grid(row=2,column=2)
-sub=Button(calc,font=('arial',15,'bold'),command=lambda:click('-'),bg="lavender",text="-",bd=5,padx=15,pady=10).grid(row=2,column=3)
-bt1=Button(calc,font=('arial',15,'bold'),command=lambda:click(1),bg="lavender",text="1",bd=5,padx=15,pady=10).grid(row=3,column=0)
-bt2=Button(calc,font=('arial',15,'bold'),command=lambda:click(2),bg="lavender",text="2",bd=5,padx=15,pady=10).grid(row=3,column=1)
-bt3=Button(calc,font=('arial',15,'bold'),command=lambda:click(3),bg="lavender",text="3",bd=5,padx=15,pady=10).grid(row=3,column=2)
-mul=Button(calc,font=('arial',15,'bold'),command=lambda:click('*'),bg="lavender",text="*",bd=5,padx=15,pady=10).grid(row=3,column=3)
-bt0=Button(calc,font=('arial',15,'bold'),command=lambda:click(0),bg="lavender",text="0",bd=5,padx=15,pady=10).grid(row=4,column=0)
-btC=Button(calc,font=('arial',15,'bold'),command=clearDisplay,bg="lavender",text="C",bd=5,padx=15,pady=10).grid(row=4,column=1)
-eql=Button(calc,font=('arial',15,'bold'),command=evaluate,bg="lavender",text="=",bd=5,padx=15,pady=10).grid(row=4,column=2)
-div=Button(calc,font=('arial',15,'bold'),command=lambda:click('/'),bg="lavender",text="/",bd=5,padx=15,pady=10).grid(row=4,column=3)
-calc.mainloop(),
+import random
+attempts_list = []
+def show_score():
+    if len(attempts_list) <= 0:
+        print("There is currently no high score, it's yours for the taking!")
+    else:
+        print("The current high score is {} attempts".format(min(attempts_list)))
+def start_game():
+    random_number = int(random.randint(1, 26))
+    n = {'1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E', '6': 'F',
+         '7': 'G', '8': 'H', '9': 'I', '10': 'J', '11': 'K', '12': 'L',
+         '13': 'M', '14': 'N', '15': 'O', '16': 'P', '17': 'Q', '18': 'R',
+         '19': 'S', '20': 'S', '21': 'T', '22': 'U', '23': 'W', '24': 'X',
+         '25': 'Y', '26': 'Z'}
+    print("Hello traveler! Welcome to the game of guesses!")
+    player_name = input("What is your name? ")
+    wanna_play = input("Hi, {}, would you like to play the guessing game? (Enter Yes/No) ".format(player_name))
+    attempts = 0
+    show_score()
+    while wanna_play.lower() == "yes":
+        try:
+            guess = input("Pick a number between 1 and 26 ")
+            if int(guess) < 1 or int(guess) > 26:
+                raise ValueError("Please guess a number within the given range")
+            if int(guess) == random_number:
+                print("Nice! You got it!")
+                attempts += 1
+                attempts_list.append(attempts)
+                print("It took you {} attempts".format(attempts))
+                print("code for you is", n[str(random_number)] + n[str(attempts)] + n[str(random.randint(1, 26))] +
+                      n[str(random.randint(1, 26))] + n[str(int(guess))] + n[str((int(guess))+1)] + str(random_number))
+                play_again = input("Would you like to play again? (Enter Yes/No) ")
+                attempts = 0
+                show_score()
+                random_number = int(random.randint(1, 26))
+                if play_again.lower() == "no":
+                    print("That's cool, have a good one!")
+                    break
+            elif int(guess) > random_number:
+                print("It's lower")
+                attempts += 1
+            elif int(guess) < random_number:
+                print("It's higher")
+                attempts += 1
+        except ValueError as err:
+            print("Oh no!, that is not a valid value. Try again...")
+            print("({})".format(err))
+    else:
+        print("That's cool, have a good one!")
+if __name__ == '__main__':
+    start_game()
